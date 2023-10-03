@@ -15,8 +15,16 @@ void PrintMenu(){
    cout << endl<< "Choose an option:" << endl;
 }
 
-void GetNumOfNonWSCharacters(){
-   // TODO: Function Placeholder
+void GetNumOfNonWSCharacters(string sample_text){
+   //This function counts the number of non-whitespace characters.
+   //Using the isspace() builtin function - returns a 0 if its a normal character otherwise a nonzero value for a whitespace character.
+   int character_count = 0;
+   for (int i=0; i < sample_text.length(); i++){
+      if (!isspace(sample_text[i])){
+         character_count++; 
+      }
+   }
+   cout << "Number of non-whitespace characters: "<< character_count << endl;
 }
 
 void GetNumOfWords(){
@@ -44,6 +52,7 @@ void ExecuteMenu(char selection, string sample_text)
    switch (selection)
    {
    case 'c': // Number of non-whitespace characters
+         GetNumOfNonWSCharacters(sample_text);
          cout <<endl;
          ExecuteMenu(selection, sample_text);
       break;
@@ -80,6 +89,7 @@ int main() {
 
    cout << endl << "You entered: "<< sample_text <<endl;
    cout << endl;
+
    //calling the menu function
    ExecuteMenu(selection, sample_text);
 
