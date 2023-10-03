@@ -27,8 +27,28 @@ void GetNumOfNonWSCharacters(string sample_text){
    cout << "Number of non-whitespace characters: "<< character_count << endl;
 }
 
-void GetNumOfWords(){
-   //TODO: Function Placeholder
+string ShortenSpace(string sample_text){
+   //Removes all double spaces in the text and returns the sample_text
+   for (int i=0; i<sample_text.length(); i++){
+      if(isspace(sample_text[i]) && isspace(sample_text[i+1])){
+         sample_text.erase(sample_text.begin() + i);
+      }
+   }
+   return sample_text;
+}
+
+void GetNumOfWords(string sample_text){
+   //Counts the number of words in the sample text.
+   //Counts the number of whitespaces and adds one that is the number of words in the document.
+   int words = 0;
+   sample_text = ShortenSpace(sample_text); //removing double spaces
+   for (int i=0; i<sample_text.length(); i++){
+      if(isspace(sample_text[i])){
+         words++;
+      }
+   }
+   words = words + 1;
+   cout << "Number of words: "<< words << endl;
 }
 
 void FindText(){
@@ -39,9 +59,7 @@ void ReplaceExclamation(){
    //TODO: Function Placeholder
 }
 
-void ShortenSpace(){
-   //TODO: Function Placeholder
-}
+
 
 //Prints the Menu and gets users selection. Recurisive call to itself if selection is not q (Quit)
 void ExecuteMenu(char selection, string sample_text)
@@ -57,6 +75,7 @@ void ExecuteMenu(char selection, string sample_text)
          ExecuteMenu(selection, sample_text);
       break;
    case 'w': // Number of words
+         GetNumOfWords(sample_text);
          cout <<endl;
          ExecuteMenu(selection, sample_text);
       break;
@@ -69,6 +88,8 @@ void ExecuteMenu(char selection, string sample_text)
          ExecuteMenu(selection, sample_text);
       break;
    case 's': // Shorten spaces
+      sample_text = ShortenSpace(sample_text);
+      cout<<"Edited text: "<< sample_text<<endl<<endl; 
       ExecuteMenu(selection, sample_text);
       break;
    case 'q': // Quit Program
