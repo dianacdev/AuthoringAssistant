@@ -55,8 +55,13 @@ void FindText(){
    //TODO: Function Placeholder
 }
 
-void ReplaceExclamation(){
-   //TODO: Function Placeholder
+void ReplaceExclamation(string sample_text){
+   for (int i=0; i <sample_text.length(); i++){
+      if( sample_text[i] == '!' ){
+         sample_text[i] = '.';
+      }
+   }
+   cout << "Edited text: "<< sample_text<<endl<<endl;
 }
 
 
@@ -84,6 +89,7 @@ void ExecuteMenu(char selection, string sample_text)
          ExecuteMenu(selection, sample_text);
       break;
    case 'r': // Replace all !'s
+         ReplaceExclamation(sample_text);
          cout <<endl;
          ExecuteMenu(selection, sample_text);
       break;
