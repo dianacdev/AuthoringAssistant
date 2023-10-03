@@ -15,6 +15,26 @@ void PrintMenu(){
    cout << endl<< "Choose an option:" << endl;
 }
 
+void GetNumOfNonWSCharacters(){
+   // TODO: Function Placeholder
+}
+
+void GetNumOfWords(){
+   //TODO: Function Placeholder
+}
+
+void FindText(){
+   //TODO: Function Placeholder
+}
+
+void ReplaceExclamation(){
+   //TODO: Function Placeholder
+}
+
+void ShortenSpace(){
+   //TODO: Function Placeholder
+}
+
 //Prints the Menu and gets users selection. Recurisive call to itself if selection is not q (Quit)
 void ExecuteMenu(char selection, string sample_text)
 {
