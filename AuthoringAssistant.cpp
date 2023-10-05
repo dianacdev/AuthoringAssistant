@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 using namespace std;
+string find_word;
+
 
 //Prints the menu options
 void PrintMenu(){
@@ -11,11 +13,9 @@ void PrintMenu(){
    cout << "r - Replace all !'s" << endl;
    cout << "s - Shorten spaces" << endl;
    cout << "q - Quit" << endl;
-
-   cout << endl<< "Choose an option:" << endl;
 }
 
-void GetNumOfNonWSCharacters(string sample_text){
+int GetNumOfNonWSCharacters(string sample_text){
    //This function counts the number of non-whitespace characters.
    //Using the isspace() builtin function - returns a 0 if its a normal character otherwise a nonzero value for a whitespace character.
    int character_count = 0;
@@ -24,16 +24,24 @@ void GetNumOfNonWSCharacters(string sample_text){
          character_count++; 
       }
    }
-   cout << "Number of non-whitespace characters: "<< character_count << endl;
+   return character_count;
 }
 
 string ShortenSpace(string sample_text){
    //Removes all double spaces in the text and returns the sample_text
+   string new_text = " ";
    for (int i=0; i<sample_text.length(); i++){
-      if(isspace(sample_text[i]) && isspace(sample_text[i+1])){
-         sample_text.erase(sample_text.begin() + i);
+      if(isspace(sample_text[i])){
+         while (isspace(sample_text[i]))
+         i++;
+         i--;
+         new_text += " ";
+      }
+      else{
+         new_text += sample_text[i];
       }
    }
+   sample_text = new_text;
    return sample_text;
 }
 
@@ -47,35 +55,44 @@ void GetNumOfWords(string sample_text){
          words++;
       }
    }
-   words = words + 1;
    cout << "Number of words: "<< words << endl;
 }
 
-void FindText(){
-   //TODO: Function Placeholder
-}
-
-void ReplaceExclamation(string sample_text){
-   for (int i=0; i <sample_text.length(); i++){
-      if( sample_text[i] == '!' ){
-         sample_text[i] = '.';
-      }
+int FindText(string find, string sample_text){
+   int found = 0;
+   int position = 0;
+   int i;
+   while ((i = sample_text.find(find, position)) != string::npos)
+   {
+      found++;
+      position = i +1;
    }
-   cout << "Edited text: "<< sample_text<<endl<<endl;
+   return found;
 }
 
+string ReplaceExclamation(string sample_text){
+   int position = 0;
+   int i;
+   while ((i = sample_text.find('!', position)) != string::npos)
+   {
+      sample_text[i] = '.';
+      position = i +1;
+   }
+   return sample_text;
+}
 
 
 //Prints the Menu and gets users selection. Recurisive call to itself if selection is not q (Quit)
 void ExecuteMenu(char selection, string sample_text)
 {
    PrintMenu();
+   cout << endl<< "Choose an option:" << endl;
    cin >> selection;
 
    switch (selection)
    {
    case 'c': // Number of non-whitespace characters
-         GetNumOfNonWSCharacters(sample_text);
+         cout << "Number of non-whitespace characters: "<< GetNumOfNonWSCharacters(sample_text) << endl;
          cout <<endl;
          ExecuteMenu(selection, sample_text);
       break;
@@ -85,17 +102,22 @@ void ExecuteMenu(char selection, string sample_text)
          ExecuteMenu(selection, sample_text);
       break;
    case 'f': // Find text
+         cout <<"Enter a word or phrase to be found:"<<endl;
+         cin.ignore();
+         getline(cin, find_word);
+         cout << '"'<<find_word<<'"'<< " instances: "<< FindText(find_word, sample_text) <<endl;
          cout <<endl;
          ExecuteMenu(selection, sample_text);
       break;
    case 'r': // Replace all !'s
-         ReplaceExclamation(sample_text);
+         sample_text = ReplaceExclamation(sample_text);
+         cout << "Edited text: "<< sample_text<<endl;
          cout <<endl;
          ExecuteMenu(selection, sample_text);
       break;
    case 's': // Shorten spaces
       sample_text = ShortenSpace(sample_text);
-      cout<<"Edited text: "<< sample_text<<endl<<endl; 
+      cout<<"Edited text:"<< sample_text<<endl<<endl; 
       ExecuteMenu(selection, sample_text);
       break;
    case 'q': // Quit Program
